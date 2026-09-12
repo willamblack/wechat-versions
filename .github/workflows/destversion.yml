@@ -24,3 +24,16 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FORCE_RELEASE: ${{ github.event.inputs.force_release }}
         run: python3 ./scripts/destVersionForMac.py
+
+      - name: Update numerically sorted release index
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 ./scripts/build_release_index.py
+          if ! git diff --quiet -- RELEASES.md; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add RELEASES.md
+            git commit -m "Update release index"
+            git push
+          fi
