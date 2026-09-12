@@ -8,6 +8,17 @@
 
 项目使用 Github Action 每天自动检测微信**官网新版本更新**，计算 Hash/MD5 值并推送至仓库 Release。
 
+本 fork 的发布标签、标题、安装包和校验文件名均在完整版本号后附加安装包内
+`Info.plist` 的 `CFBundleVersion` 构建号。例如 `4.1.13.63_269631`。
+工作流每天 UTC 07:00 自动检查；也可以在 Actions 中手动运行。GitHub fork
+默认可能禁用工作流，须在仓库 Actions 页面启用后定时任务才会生效。
+
+历史版本可在 macOS 上用 `python3 scripts/sync_upstream_releases.py` 从上游同步。
+脚本逐个下载、核对上游 SHA-256、只读挂载并读取构建号，发布后清理临时文件；
+重复运行会跳过已同步的完整 Release。先用 `--dry-run` 查看范围，或用
+`--tag 4.1.13.63`、`--offset 0 --limit 10` 选择一部分。历史发布说明保留上游
+信息，并记录原 Release 地址；旧版本若无法读取构建号，会报告失败而不会猜测。
+
 项目仅抓取官网的Mac安装包，并不包含App Store中的版本。
 
 各版本更新日志可参见官网 [changelog](https://weixin.qq.com/cgi-bin/readtemplate?lang=zh_CN&t=weixin_faq_list&head=true)

@@ -179,7 +179,8 @@ def get_tag_from_plist(mount_dir: str) -> str:
     """
     解析 Info.plist 构建 Tag 标签
 
-    如果 WeChatBundleVersion 存在则直接使用，否则使用 CFBundleShortVersionString 和 CFBundleVersion 组合的形式。
+    使用 WeChatBundleVersion（缺失时使用 CFBundleShortVersionString）和
+    CFBundleVersion 组合成带构建号的标签。
 
     Args:
         mount_dir (str): 挂载路径
@@ -206,11 +207,12 @@ def get_tag_from_plist(mount_dir: str) -> str:
         raise RuntimeError("CFBundleShortVersionString not found.")
     if not build:
         raise RuntimeError("CFBundleVersion not found.")
-    if version:
-        tag = version
-    else:
-        tag = f"{short_version}+build.{build}"
-    return tag
+    base_version = version or short_version
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9.+_-]*", base_version):
+        raise RuntimeError(f"Invalid version in Info.plist: {base_version!r}")
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9.+_-]*", build):
+        raise RuntimeError(f"Invalid build number in Info.plist: {build!r}")
+    return f"{base_version}_{build}"
 
 def compute_sha256(file_path: Path) -> str:
     """
@@ -449,8 +451,12 @@ def main() -> int:
             log("Latest release has no MD5, used SHA256 fallback check.")
 
         if tag_exists(tag):
-            suffix = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d")
-            tag = f"{tag}_{suffix}"
+            existing = run(["gh", "release", "view", tag, "--json", "body", "--jq", ".body"])
+            existing_sha = parse_release_body(existing.stdout).get("Sha256", "")
+            if existing_sha.lower() != sha256_sum.lower():
+                raise RuntimeError(f"Release {tag} already exists with a different SHA-256.")
+            log(f"Release {tag} already exists with the same SHA-256. Skipping duplicate upload.")
+            return 0
         log(f"Release tag: {tag}")
 
         title = f"Wechat For Mac {tag}"
