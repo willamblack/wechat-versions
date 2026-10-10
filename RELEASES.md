@@ -3,10 +3,11 @@
 按版本号各段数值倒序排列；同版本再按构建号倒序。原有 `v` 和日期后缀保留。
 GitHub 原生 Releases 页面有自己的排序规则，本页提供稳定的版本顺序。
 
-共 113 个版本。
+共 114 个版本。
 
 | 版本 | 构建号 | 发布说明 | 安装包 | 校验文件 |
 | --- | ---: | --- | --- | --- |
+| 4.1.15.54 | 270134 | [查看 Release](https://github.com/willamblack/wechat-versions/releases/tag/4.1.15.54_270134) | [下载 DMG](https://github.com/willamblack/wechat-versions/releases/download/4.1.15.54_270134/WeChatMac-4.1.15.54_270134.dmg) | [SHA-256](https://github.com/willamblack/wechat-versions/releases/download/4.1.15.54_270134/WeChatMac-4.1.15.54_270134.dmg.sha256) |
 | 4.1.15.53 | 270133 | [查看 Release](https://github.com/willamblack/wechat-versions/releases/tag/4.1.15.53_270133) | [下载 DMG](https://github.com/willamblack/wechat-versions/releases/download/4.1.15.53_270133/WeChatMac-4.1.15.53_270133.dmg) | [SHA-256](https://github.com/willamblack/wechat-versions/releases/download/4.1.15.53_270133/WeChatMac-4.1.15.53_270133.dmg.sha256) |
 | 4.1.15.22 | 270102 | [查看 Release](https://github.com/willamblack/wechat-versions/releases/tag/4.1.15.22_270102) | [下载 DMG](https://github.com/willamblack/wechat-versions/releases/download/4.1.15.22_270102/WeChatMac-4.1.15.22_270102.dmg) | [SHA-256](https://github.com/willamblack/wechat-versions/releases/download/4.1.15.22_270102/WeChatMac-4.1.15.22_270102.dmg.sha256) |
 | 4.1.15.20 | 270100 | [查看 Release](https://github.com/willamblack/wechat-versions/releases/tag/4.1.15.20_270100) | [下载 DMG](https://github.com/willamblack/wechat-versions/releases/download/4.1.15.20_270100/WeChatMac-4.1.15.20_270100.dmg) | [SHA-256](https://github.com/willamblack/wechat-versions/releases/download/4.1.15.20_270100/WeChatMac-4.1.15.20_270100.dmg.sha256) |
